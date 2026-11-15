@@ -104,6 +104,66 @@
             <a href="https://www.bmw.com/" class="link_bmw">bmw.com
             </a>
         </p>
+        <section id="contact" aria-labelledby="contact-heading">
+            <h2 id="contact-heading">Зворотний зв’язок</h2>
+            <form class="contact-form" action="#" method="POST" aria-describedby="contact-help">
+                <p id="contact-help" class="form-help">Маєте запитання про BMW або пропозицію щодо сайту? Напишіть нам. Поля з позначкою * обов’язкові.</p>
+
+                <!-- Контактні дані та пов’язані з ними мітки -->
+                <div class="form-field">
+                    <label for="user-name">Ім’я *</label>
+                    <input type="text" id="user-name" name="user_name" placeholder="Введіть ваше імʼя"
+                        autocomplete="name" required>
+                </div>
+                <div class="form-field">
+                    <label for="user-email">Електронна пошта *</label>
+                    <input type="email" id="user-email" name="user_email" placeholder="example@example.com"
+                        autocomplete="email" required>
+                </div>
+
+                <!-- Тема звернення та розгорнуте повідомлення -->
+                <div class="form-field">
+                    <label for="contact-topic">Оберіть тему звернення</label>
+                    <select id="contact-topic" name="topic">
+                        <option value="" disabled selected>--- Оберіть варіант ---</option>
+                        <option value="history">Історія BMW</option>
+                        <option value="models">Моделі BMW</option>
+                        <option value="feedback">Пропозиції щодо сайту</option>
+                        <option value="other">Інша тема</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label for="user-message">Ваше повідомлення</label>
+                    <textarea id="user-message" name="message" rows="4"
+                        placeholder="Напишіть ваше запитання або відгук про BMW"></textarea>
+                </div>
+
+                <!-- Спільне name дозволяє обрати лише один спосіб зв’язку -->
+                <fieldset class="form-field">
+                    <legend>Як із вами зв’язатися?</legend>
+                    <div class="form-choice">
+                        <input type="radio" id="reply-email" name="contact_method" value="email" checked>
+                        <label for="reply-email">Відповісти на email</label>
+                    </div>
+                    <div class="form-choice">
+                        <input type="radio" id="reply-phone" name="contact_method" value="phone">
+                        <label for="reply-phone">Зателефонувати</label>
+                    </div>
+                </fieldset>
+                <div class="form-field" id="phone-field" hidden>
+                    <label for="user-phone">Телефон (для відповіді дзвінком) *</label>
+                    <input type="tel" id="user-phone" name="user_phone" placeholder="+380 67 123 45 67"
+                        autocomplete="tel" disabled>
+                </div>
+
+                <!-- Обов’язкова згода та відправлення форми -->
+                <div class="form-choice form-field">
+                    <input type="checkbox" id="terms" name="terms" value="accepted" required>
+                    <label for="terms">Я погоджуюсь на обробку персональних даних *</label>
+                </div>
+                <button type="submit">Надіслати повідомлення</button>
+            </form>
+        </section>
     </main>
     <footer class="site-footer">
         <p>© 2026 Автор проєкту: [Шевчук Максим]</p>
@@ -112,7 +172,27 @@
     </footer>
 </div>
 
-<a href="#top" class="scroll-to-top" aria-label="Повернутися на початок сторінки">↑</a>
+<a href="#top" class="scroll-to-top" aria-label="Повернутися на початок сторінки"><i class="fa fa-hand-pointer-o" aria-hidden="true"></i></a>
+
+<script>
+    const contactMethods = document.querySelectorAll('input[name="contact_method"]');
+    const phoneOption = document.getElementById('reply-phone');
+    const phoneField = document.getElementById('phone-field');
+    const phoneInput = document.getElementById('user-phone');
+
+    function updatePhoneField() {
+        const needsPhone = phoneOption.checked;
+        phoneField.hidden = !needsPhone;
+        phoneInput.disabled = !needsPhone;
+        phoneInput.required = needsPhone;
+    }
+
+    contactMethods.forEach((option) => {
+        option.addEventListener('change', updatePhoneField);
+    });
+    window.addEventListener('pageshow', updatePhoneField);
+    updatePhoneField();
+</script>
 
 </body>
 </html>
